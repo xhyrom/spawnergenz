@@ -13,11 +13,13 @@ repositories {
     maven("https://repo.codemc.org/repository/maven-public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://hub.jeff-media.com/nexus/repository/jeff-media-public/")
+    maven("https://repo.jopga.me/releases")
 }
 
 dependencies {
     compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.2-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.3")
+    compileOnly("me.xhyrom.peddlerspocket:PeddlersPocket:1.0.0")
 
     compileOnly("org.projectlombok:lombok:1.18.26")
     annotationProcessor("org.projectlombok:lombok:1.18.26")
