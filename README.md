@@ -4,7 +4,7 @@
   <br>
 </h1>
 
-<h4 align="center">Source code for Peak Pursuit (King Of Tghe Hill), a paper plugin.</h4>
+<h4 align="center">Source code for Spawner Genz, a paper plugin.</h4>
 
 <p align="center">
     <a href="https://discord.gg/kFPKmEKeMS/" alt="Discord">
@@ -14,7 +14,7 @@
 
 ## Setup
 
-1. Clone this repository: `git clone https://github.com/xHyroM/peakpursuit.git`
+1. Clone this repository: `git clone https://github.com/xHyroM/spawnergenz.git`
 2. Open project in Intellij Idea
 
 ## Contributing
