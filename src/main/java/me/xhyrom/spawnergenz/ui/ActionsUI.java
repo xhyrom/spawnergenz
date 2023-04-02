@@ -2,12 +2,16 @@ package me.xhyrom.spawnergenz.ui;
 
 import me.xhyrom.spawnergenz.SpawnerGenz;
 import me.xhyrom.spawnergenz.structs.Spawner;
+import me.xhyrom.spawnergenz.structs.actions.Action;
+import me.xhyrom.spawnergenz.structs.actions.ActionOpportunity;
+import me.xhyrom.spawnergenz.structs.actions.ActionStatus;
 import me.xhyrom.spawnergenz.utils.Utils;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -39,6 +43,14 @@ public class ActionsUI implements Listener {
                 spawner.getCreatureSpawner().getSpawnedType().name().substring(1).toLowerCase()
         ));
 
+        initializeItems();
+
+        Bukkit.getPluginManager().registerEvents(this, SpawnerGenz.getInstance());
+
+        player.openInventory(inventory);
+    }
+
+    private void initializeItems() {
         ItemStack storage = new ItemStack(Material.valueOf(
                 SpawnerGenz.getInstance().config.getString("ui.actions.open-storage.material")
         ));
@@ -114,10 +126,12 @@ public class ActionsUI implements Listener {
                 SpawnerGenz.getInstance().config.getStringList("ui.actions.collect-xp.lore")
                         .stream()
                         .map(
-                            line -> MiniMessage.miniMessage().deserialize(
-                                    line,
-                                    Placeholder.parsed("experience", String.valueOf(spawner.getExperience()))
-                            ).decoration(TextDecoration.ITALIC, false)
+                                line -> MiniMessage.miniMessage().deserialize(
+                                        line,
+                                        Placeholder.parsed("experience", Utils.formatNumber(
+                                                spawner.getExperience()
+                                        ))
+                                ).decoration(TextDecoration.ITALIC, false)
                         )
                         .collect(Collectors.toList())
         );
@@ -127,10 +141,6 @@ public class ActionsUI implements Listener {
                 16,
                 collectXp
         );
-
-        Bukkit.getPluginManager().registerEvents(this, SpawnerGenz.getInstance());
-
-        player.openInventory(inventory);
     }
 
     public void close(Player player) {
@@ -143,15 +153,39 @@ public class ActionsUI implements Listener {
                 new StorageUI(spawner).open(player);
                 break;
             case 16:
+                if (spawner.getExperience() == 0) {
+                    for (Action action : SpawnerGenz.getInstance().getActions().get(ActionOpportunity.COLLECT_XP).get(ActionStatus.FAIL)) {
+                        action.execute(player, new me.xhyrom.spawnergenz.structs.Placeholder[]{
+                                new me.xhyrom.spawnergenz.structs.Placeholder("experience", String.valueOf(spawner.getExperience())),
+                                new me.xhyrom.spawnergenz.structs.Placeholder("experience_formatted", Utils.formatNumber(
+                                        spawner.getExperience()
+                                ))
+                        });
+                    }
+                } else {
+                    for (Action action : SpawnerGenz.getInstance().getActions().get(ActionOpportunity.COLLECT_XP).get(ActionStatus.SUCCESS)) {
+                        action.execute(player, new me.xhyrom.spawnergenz.structs.Placeholder[]{
+                                new me.xhyrom.spawnergenz.structs.Placeholder("experience", String.valueOf(spawner.getExperience())),
+                                new me.xhyrom.spawnergenz.structs.Placeholder("experience_formatted", Utils.formatNumber(
+                                        spawner.getExperience()
+                                ))
+                        });
+                    }
+                }
+
+                for (ItemStack item : player.getInventory().getContents()) {
+                    if (item == null) continue;
+                    if (!item.hasEnchant(Enchantment.MENDING)) continue;
+
+                    int expToRemove = Math.min(item.getDurability(), spawner.getExperience() * 2);
+                    item.setDurability((short) (item.getDurability() - expToRemove));
+                    spawner.setExperience(spawner.getExperience() - (expToRemove / 2));
+                }
+
                 player.giveExp(spawner.getExperience());
                 spawner.setExperience(0);
 
-                player.sendMessage(
-                        MiniMessage.miniMessage().deserialize(
-                                SpawnerGenz.getInstance().config.getString("messages.collect-xp"),
-                                Placeholder.parsed("experience", String.valueOf(spawner.getExperience()))
-                        )
-                );
+                initializeItems();
                 break;
         }
     }

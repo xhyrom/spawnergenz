@@ -73,12 +73,10 @@ public class SpawnerGenz extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-            System.out.println("Saving spawners...");
-
             for (Spawner spawner : spawners.values()) {
                 spawner.saveToPDC();
             }
-        }, 0, 30 * 20L);
+        }, 0, 90 * 20L);
     }
 
     @Override

@@ -5,13 +5,19 @@ actions:
       - { sound: "entity.experience_bottle.throw", volume: 1, pitch: 1 }
     fail:
       - { message: "<red>Can't claim loot" }
+  collect_xp:
+    success:
+      - { message: "<green>Collected <experience_formatted> XP" }
+      - { sound: "entity.experience_bottle.throw", volume: 1, pitch: 1 }
+    fail:
+      - { message: "<red>Collected <experience_formatted> XP" }
 
 messages:
   loading-spawner: "<green>Loading spawner..."
   success-merge: "<green>Merged spawners! now: <count> <spawner_type>"
   failed-to-merge-type: "<red>You can only merge spawners with the same type!"
   failed-to-merge-max: "<red>You can't merge more than 256 spawners!"
-  collect-xp: "<green>Collected <experience> XP"
+  collect-xp: "<green>Collected <experience_formatted> XP"
 
 ui:
   actions:

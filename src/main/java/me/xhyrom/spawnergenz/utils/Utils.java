@@ -2,24 +2,11 @@ package me.xhyrom.spawnergenz.utils;
 
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import org.bukkit.entity.LivingEntity;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class Utils {
-    public static int getExpReward(LivingEntity entity) {
-        try {
-            Object handle = entity.getClass().getMethod("getHandle").invoke(entity);
-
-            Method getExpReward = handle.getClass().getMethod("getExpReward");
-            getExpReward.setAccessible(true);
-            return (int) getExpReward.invoke(handle);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return -1;
+    public static int getRandomInt(int min, int max) {
+        return (int) (Math.random() * (max - min + 1) + min);
     }
 
     public static String convertUpperSnakeCaseToPascalCase(String upperSnakeCase) {

@@ -26,7 +26,7 @@ public class SpawnerListener implements Listener {
                     .lootedEntity(event.getEntity())
                     .build();
 
-            spawner.setExperience(spawner.getExperience() + Utils.getExpReward((LivingEntity) event.getEntity()));
+            spawner.setExperience(spawner.getExperience() + Utils.getRandomInt(0, 4));
 
             for (ItemStack item : lootTable.populateLoot(new Random(), lootContext)) {
                 if (spawner.getStorage().size() >= 18 * spawner.getCount()) break;
