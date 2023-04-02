@@ -1,7 +1,8 @@
 package me.xhyrom.spawnergenz.listeners;
 
-import me.xhyrom.spawnergenz.managers.SpawnerManager;
-import org.bukkit.Bukkit;
+import me.xhyrom.spawnergenz.structs.Spawner;
+import me.xhyrom.spawnergenz.utils.Utils;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
@@ -18,14 +19,19 @@ public class SpawnerListener implements Listener {
         event.setCancelled(true);
 
         LootTable lootTable = ((Lootable) event.getEntity()).getLootTable();
+        Spawner spawner = Spawner.fromCreatureSpawner(event.getSpawner());
 
-        for (int i = 0; i < SpawnerManager.getSpawnerCount(event.getSpawner()); i++) {
+        for (int i = 0; i < spawner.getCount(); i++) {
             LootContext lootContext = new LootContext.Builder(event.getLocation())
                     .lootedEntity(event.getEntity())
                     .build();
 
+            spawner.setExperience(spawner.getExperience() + Utils.getExpReward((LivingEntity) event.getEntity()));
+
             for (ItemStack item : lootTable.populateLoot(new Random(), lootContext)) {
-                SpawnerManager.addStemToSpawnerStorage(event.getSpawner(), item);
+                if (spawner.getStorage().size() >= 18 * spawner.getCount()) break;
+
+                spawner.addItemToStorage(item);
             }
         }
     }

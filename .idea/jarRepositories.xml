@@ -41,5 +41,10 @@
       <option name="name" value="maven5" />
       <option name="url" value="https://hub.jeff-media.com/nexus/repository/jeff-media-public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="https://repo.jopga.me/releases" />
+    </remote-repository>
   </component>
 </project>

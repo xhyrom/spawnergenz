@@ -19,7 +19,7 @@ repositories {
 dependencies {
     compileOnly("org.purpurmc.purpur", "purpur-api", "1.19.2-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.3")
-    compileOnly("me.xhyrom.peddlerspocket:PeddlersPocket:1.0.0")
+    compileOnly("me.xhyrom.peddlerspocket:PeddlersPocket:1.0.1")
 
     compileOnly("org.projectlombok:lombok:1.18.26")
     annotationProcessor("org.projectlombok:lombok:1.18.26")

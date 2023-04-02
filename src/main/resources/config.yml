@@ -1,0 +1,52 @@
+actions:
+  claim_loot:
+    success:
+      - { message: "<green>Claimed loot <spawner_type>" }
+      - { sound: "entity.experience_bottle.throw", volume: 1, pitch: 1 }
+    fail:
+      - { message: "<red>Can't claim loot" }
+
+messages:
+  loading-spawner: "<green>Loading spawner..."
+  success-merge: "<green>Merged spawners! now: <count> <spawner_type>"
+  failed-to-merge-type: "<red>You can only merge spawners with the same type!"
+  failed-to-merge-max: "<red>You can't merge more than 256 spawners!"
+  collect-xp: "<green>Collected <experience> XP"
+
+ui:
+  actions:
+    open-storage:
+        material: "CHEST"
+        name: "<#428df5><bold>OPEN STORAGE"
+        # SINLE LINE
+        lore: "<#428df5><count> <white><itemstack>"
+    spawner-info:
+      material: "BLAZE_POWDER"
+      name: "<#428df5><bold>SPAWNER INFO"
+      lore:
+        - "<#428df5><spawner_type>"
+        - "<#428df5><count> <white>spawners"
+        - "<#428df5><experience> <white>XP"
+        - "<white>Storage <#428df5><storage_percentage>% <dark_gray>(<#428df5><storage><dark_gray>/<#428df5><storage_max><dark_gray>) <white> filled"
+    collect-xp:
+      material: "EXPERIENCE_BOTTLE"
+      name: "<#1ee355><bold>COLLECT XP"
+      # ARRAY
+      lore:
+        - "<#1ee355><experience> <white>XP"
+  storage:
+    back:
+      material: "BARRIER"
+      name: "<#fc3503><bold>BACK"
+    previous-page:
+      material: "ARROW"
+      name: "<#428df5><bold>PREVIOUS"
+    next-page:
+      material: "ARROW"
+      name: "<#428df5><bold>NEXT"
+    collect-loot:
+      material: "SPECTRAL_ARROW"
+      name: "<#f5ef42><bold>COLLECT LOOT"
+    sell-all:
+      material: "EMERALD"
+      name: "<#03fc1c><bold>SELL ALL"
