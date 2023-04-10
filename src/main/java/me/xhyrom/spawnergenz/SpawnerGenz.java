@@ -21,22 +21,20 @@ public class SpawnerGenz extends JavaPlugin {
     private TTLHashMap spawners;
     @Getter
     private HashMap<ActionOpportunity, HashMap<ActionStatus, ArrayList<Action>>> actions = new HashMap<>();
-    public FileConfiguration config = getConfig();
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        config = getConfig();
 
-        config.getConfigurationSection("actions").getKeys(false).forEach(key -> {
+        getConfig().getConfigurationSection("actions").getKeys(false).forEach(key -> {
             ActionOpportunity opportunity = ActionOpportunity.valueOf(key.toUpperCase());
             HashMap<ActionStatus, ArrayList<Action>> map = new HashMap<>();
 
-            config.getConfigurationSection("actions." + key).getKeys(false).forEach(key1 -> {
+            getConfig().getConfigurationSection("actions." + key).getKeys(false).forEach(key1 -> {
                 ActionStatus status = ActionStatus.valueOf(key1.toUpperCase());
                 ArrayList<Action> actions = new ArrayList<>();
 
-                ((ArrayList<HashMap<String, Object>>) config.get("actions." + key + "." + key1)).forEach(action -> {
+                ((ArrayList<HashMap<String, Object>>) getConfig().get("actions." + key + "." + key1)).forEach(action -> {
                     if (action.containsKey("title"))
                         actions.add(new TitleAction(
                                 action.get("title").toString(),

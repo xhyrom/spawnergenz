@@ -37,7 +37,7 @@ public class ClickListener implements Listener {
 
         Bukkit.getScheduler().runTaskAsynchronously(SpawnerGenz.getInstance(), () -> {
             player.sendMessage(MiniMessage.miniMessage().deserialize(
-                    SpawnerGenz.getInstance().config.getString("messages.loading-spawner")
+                    SpawnerGenz.getInstance().getConfig().getString("messages.loading-spawner")
             ));
 
             while (!spawner.isReady()) {
@@ -59,7 +59,7 @@ public class ClickListener implements Listener {
 
             if (handSpawner.getSpawnedType() != spawner.getCreatureSpawner().getSpawnedType()) {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        SpawnerGenz.getInstance().config.getString("messages.failed-to-merge-type")
+                        SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-type")
                 ));
                 return;
             }
@@ -70,7 +70,7 @@ public class ClickListener implements Listener {
                     if (spawner.getCount() == 256) {
                         if (i == 0)
                             player.sendMessage(MiniMessage.miniMessage().deserialize(
-                                    SpawnerGenz.getInstance().config.getString("messages.failed-to-merge-max")
+                                    SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")
                             ));
 
                         if ((itemInHand.getAmount() - remove) <= 0) {
@@ -96,7 +96,7 @@ public class ClickListener implements Listener {
                     } else itemInHand.setAmount(itemInHand.getAmount() - 1);
                 } else {
                     player.sendMessage(MiniMessage.miniMessage().deserialize(
-                            SpawnerGenz.getInstance().config.getString("messages.failed-to-merge-max")
+                            SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")
                     ));
 
                     return;
@@ -104,7 +104,7 @@ public class ClickListener implements Listener {
             }
 
             player.sendMessage(MiniMessage.miniMessage().deserialize(
-                    SpawnerGenz.getInstance().config.getString("messages.success-merge"),
+                    SpawnerGenz.getInstance().getConfig().getString("messages.success-merge"),
                     Placeholder.parsed("count", String.valueOf(spawner.getCount())),
                     Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(
                             spawner.getCreatureSpawner().getSpawnedType().name()

@@ -62,11 +62,11 @@ public class StorageUI implements Listener {
         }
 
         ItemStack back = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.storage.back.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.back.material")
         ));
         ItemMeta backMeta = back.getItemMeta();
         backMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.storage.back.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.back.name")
         ).decoration(TextDecoration.ITALIC, false));
         back.setItemMeta(backMeta);
 
@@ -76,16 +76,16 @@ public class StorageUI implements Listener {
         );
 
         ItemStack previous = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.storage.previous-page.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.previous-page.material")
         ));
         ItemStack collectLoot = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.storage.collect-loot.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.collect-loot.material")
         ));
         ItemStack next = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.storage.next-page.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.next-page.material")
         ));
         ItemStack sell = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.storage.sell-all.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.sell-all.material")
         ));
 
         ItemMeta previousMeta = previous.getItemMeta();
@@ -93,16 +93,16 @@ public class StorageUI implements Listener {
         ItemMeta nextMeta = next.getItemMeta();
         ItemMeta sellMeta = sell.getItemMeta();
         previousMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.storage.previous-page.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.previous-page.name")
         ).decoration(TextDecoration.ITALIC, false));
         collectLootMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.storage.collect-loot.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.collect-loot.name")
         ).decoration(TextDecoration.ITALIC, false));
         nextMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.storage.next-page.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.next-page.name")
         ).decoration(TextDecoration.ITALIC, false));
         sellMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.storage.sell-all.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.storage.sell-all.name")
         ).decoration(TextDecoration.ITALIC, false));
 
         previous.setItemMeta(previousMeta);

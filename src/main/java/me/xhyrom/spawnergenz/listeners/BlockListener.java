@@ -2,7 +2,9 @@ package me.xhyrom.spawnergenz.listeners;
 
 import me.xhyrom.spawnergenz.SpawnerGenz;
 import me.xhyrom.spawnergenz.structs.Spawner;
+import me.xhyrom.spawnergenz.utils.Utils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,12 +27,6 @@ public class BlockListener implements Listener {
         if (event.getBlock().getType() != Material.SPAWNER) return;
         event.setDropItems(false);
         event.setCancelled(true);
-
-        Player player = event.getPlayer();
-        if (!player.getInventory().getItemInMainHand().hasEnchant(Enchantment.SILK_TOUCH)) {
-            SpawnerGenz.getInstance().getSpawners().remove(event.getBlock().getLocation());
-            return;
-        }
 
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {
@@ -68,7 +64,9 @@ public class BlockListener implements Listener {
             );
             itemMeta.displayName(
                     MiniMessage.miniMessage().deserialize(
-                            "<yellow>" + spawner.getCount() + " <white>" + spawner.getCreatureSpawner().getSpawnedType().name() + " spawner"
+                            SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
+                            Placeholder.parsed("amount", String.valueOf(spawner.getCount())),
+                            Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(spawner.getCreatureSpawner().getSpawnedType().name()))
                     )
             );
             item.setItemMeta(itemMeta);
@@ -85,7 +83,15 @@ public class BlockListener implements Listener {
         BlockStateMeta itemMeta = (BlockStateMeta) item.getItemMeta();
         CreatureSpawner itemCreatureSpawner = (CreatureSpawner) itemMeta.getBlockState();
 
+        itemMeta.displayName(
+                MiniMessage.miniMessage().deserialize(
+                        SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
+                        Placeholder.parsed("amount", "1"),
+                        Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(spawner.getCreatureSpawner().getSpawnedType().name()))
+                )
+        );
         itemCreatureSpawner.setSpawnedType(spawner.getCreatureSpawner().getSpawnedType());
+
         itemMeta.setBlockState(itemCreatureSpawner);
         item.setItemMeta(itemMeta);
 

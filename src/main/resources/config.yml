@@ -12,6 +12,8 @@ actions:
     fail:
       - { message: "<red>Collected <experience_formatted> XP" }
 
+item-spawner-name: "<yellow><amount>x <pink><spawner_type> <white>spawner"
+
 messages:
   loading-spawner: "<green>Loading spawner..."
   success-merge: "<green>Merged spawners! now: <count> <spawner_type>"

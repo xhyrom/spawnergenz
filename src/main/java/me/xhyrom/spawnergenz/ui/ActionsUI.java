@@ -52,12 +52,12 @@ public class ActionsUI implements Listener {
 
     private void initializeItems() {
         ItemStack storage = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.actions.open-storage.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.actions.open-storage.material")
         ));
         ItemMeta storageMeta = storage.getItemMeta();
 
         storageMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.actions.open-storage.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.actions.open-storage.name")
         ).decoration(TextDecoration.ITALIC, false));
         storageMeta.lore(
                 spawner.getStorage()
@@ -67,7 +67,7 @@ public class ActionsUI implements Listener {
                         .stream()
                         .map(entry ->
                                 MiniMessage.miniMessage().deserialize(
-                                        SpawnerGenz.getInstance().config.getString("ui.actions.open-storage.lore"),
+                                        SpawnerGenz.getInstance().getConfig().getString("ui.actions.open-storage.lore"),
                                         Placeholder.parsed("count", Utils.formatNumber(entry.getValue())),
                                         Placeholder.parsed("itemstack", Utils.convertUpperSnakeCaseToPascalCase(entry.getKey().name()))
                                 ).decoration(TextDecoration.ITALIC, false)
@@ -82,15 +82,15 @@ public class ActionsUI implements Listener {
         );
 
         ItemStack spawnerInfo = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.actions.spawner-info.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.actions.spawner-info.material")
         ));
         ItemMeta spawnerInfoMeta = spawnerInfo.getItemMeta();
 
         spawnerInfoMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.actions.spawner-info.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.actions.spawner-info.name")
         ).decoration(TextDecoration.ITALIC, false));
         spawnerInfoMeta.lore(
-                SpawnerGenz.getInstance().config.getStringList("ui.actions.spawner-info.lore")
+                SpawnerGenz.getInstance().getConfig().getStringList("ui.actions.spawner-info.lore")
                         .stream()
                         .map(
                                 line -> MiniMessage.miniMessage().deserialize(
@@ -115,15 +115,15 @@ public class ActionsUI implements Listener {
         );
 
         ItemStack collectXp = new ItemStack(Material.valueOf(
-                SpawnerGenz.getInstance().config.getString("ui.actions.collect-xp.material")
+                SpawnerGenz.getInstance().getConfig().getString("ui.actions.collect-xp.material")
         ));
         ItemMeta collectXpMeta = collectXp.getItemMeta();
 
         collectXpMeta.displayName(MiniMessage.miniMessage().deserialize(
-                SpawnerGenz.getInstance().config.getString("ui.actions.collect-xp.name")
+                SpawnerGenz.getInstance().getConfig().getString("ui.actions.collect-xp.name")
         ).decoration(TextDecoration.ITALIC, false));
         collectXpMeta.lore(
-                SpawnerGenz.getInstance().config.getStringList("ui.actions.collect-xp.lore")
+                SpawnerGenz.getInstance().getConfig().getStringList("ui.actions.collect-xp.lore")
                         .stream()
                         .map(
                                 line -> MiniMessage.miniMessage().deserialize(
