@@ -17,6 +17,8 @@ public class TTLHashMap {
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(SpawnerGenz.getInstance(), () -> {
             for (Location key : map.keySet()) {
+                get(key).saveToPDC();
+
                 if (ttl.get(key) < System.currentTimeMillis()) {
                     remove(key);
                 }

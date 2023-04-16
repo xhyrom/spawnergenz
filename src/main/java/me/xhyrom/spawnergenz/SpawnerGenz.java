@@ -1,6 +1,9 @@
 package me.xhyrom.spawnergenz;
 
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
+import me.xhyrom.spawnergenz.commands.SpawnerGenzCommand;
 import me.xhyrom.spawnergenz.listeners.BlockListener;
 import me.xhyrom.spawnergenz.listeners.ClickListener;
 import me.xhyrom.spawnergenz.listeners.SpawnerListener;
@@ -23,7 +26,13 @@ public class SpawnerGenz extends JavaPlugin {
     private HashMap<ActionOpportunity, HashMap<ActionStatus, ArrayList<Action>>> actions = new HashMap<>();
 
     @Override
+    public void onLoad() {
+        CommandAPI.onLoad(new CommandAPIConfig());
+    }
+
+    @Override
     public void onEnable() {
+        CommandAPI.onEnable(this);
         saveDefaultConfig();
 
         getConfig().getConfigurationSection("actions").getKeys(false).forEach(key -> {
@@ -69,16 +78,12 @@ public class SpawnerGenz extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new SpawnerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
-
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-            for (Spawner spawner : spawners.values()) {
-                spawner.saveToPDC();
-            }
-        }, 0, 90 * 20L);
+        SpawnerGenzCommand.register();
     }
 
     @Override
     public void onDisable() {
+        CommandAPI.onDisable();
         for (Spawner spawner : spawners.values()) {
             spawner.saveToPDC();
         }

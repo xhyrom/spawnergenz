@@ -7,8 +7,11 @@ import me.xhyrom.spawnergenz.utils.Utils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +19,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class ClickListener implements Listener {
     @EventHandler
@@ -55,9 +61,15 @@ public class ClickListener implements Listener {
     private void handle(Player player, Spawner spawner) {
         if (player.getInventory().getItemInMainHand().getType() == Material.SPAWNER) {
             ItemStack itemInHand = player.getInventory().getItemInMainHand();
-            CreatureSpawner handSpawner = (CreatureSpawner) ((BlockStateMeta) itemInHand.getItemMeta()).getBlockState();
+            ItemMeta itemInHandMeta = itemInHand.getItemMeta();
+            PersistentDataContainer itemInHandPDC = itemInHandMeta.getPersistentDataContainer();
 
-            if (handSpawner.getSpawnedType() != spawner.getCreatureSpawner().getSpawnedType()) {
+            NamespacedKey mobKey = NamespacedKey.fromString("ms_mob", SpawnerGenz.getInstance());
+            EntityType handMob = itemInHandPDC.has(mobKey) ? EntityType.valueOf(itemInHandPDC.get(mobKey, PersistentDataType.STRING)) : EntityType.PIG;
+
+            if (
+                    handMob != spawner.getCreatureSpawner().getSpawnedType()
+            ) {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(
                         SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-type")
                 ));

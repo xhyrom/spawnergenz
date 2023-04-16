@@ -25,6 +25,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.26")
 
     implementation("dev.jorel:commandapi-shade:8.8.0")
+    implementation("de.tr7zw:item-nbt-api:2.11.2")
     implementation("com.jeff_media:MorePersistentDataTypes:2.4.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
@@ -35,5 +36,6 @@ tasks {
     shadowJar {
         relocate("dev.jorel.commandapi", "me.xhyrom.spawnergenz.libs.commandapi")
         relocate("com.jeff_media.morepersistentdatatypes", "me.xhyrom.spawnergenz.libs.morepersistentdatatypes")
+        relocate("de.tr7zw.changeme.nbtapi", "me.xhyrom.spawnergenz.libs.nbtapi")
     }
 }
