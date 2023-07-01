@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Java.SpawnerGenz.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Java.SpawnerGenz.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SpawnerGenz.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SpawnerGenz.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.xhyrom.spawnergenz.SpawnerGenz.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.xhyrom.spawnergenz.SpawnerGenz.main.iml" />
     </modules>
   </component>
 </project>

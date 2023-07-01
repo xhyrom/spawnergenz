@@ -85,7 +85,7 @@ public class SpawnerGenz extends JavaPlugin {
     public void onDisable() {
         CommandAPI.onDisable();
         for (Spawner spawner : spawners.values()) {
-            spawner.saveToPDC();
+            spawner.saveToPDCSync();
         }
     }
 }

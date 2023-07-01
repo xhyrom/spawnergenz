@@ -59,6 +59,12 @@ public class Spawner {
         setStorageToPDC(storage.toArray(new ItemStack[0]));
     }
 
+    public void saveToPDCSync() {
+        setCountToPDCSync(count);
+        setExperienceToPDCSync(experience);
+        setStorageToPDCSync(storage.toArray(new ItemStack[0]));
+    }
+
     public void addItemToStorage(ItemStack item) {
         ItemStack[] storage = this.storage.toArray(new ItemStack[0]);
 
@@ -106,6 +112,17 @@ public class Spawner {
 
         Bukkit.getScheduler().runTask(SpawnerGenz.getInstance(), () -> creatureSpawner.update());
     }
+
+    private void setCountToPDCSync(int count) {
+        creatureSpawner.getPersistentDataContainer()
+                .set(
+                        NamespacedKey.fromString("count", SpawnerGenz.getInstance()),
+                        PersistentDataType.INTEGER,
+                        count
+                );
+
+        creatureSpawner.update();
+    }
     private int getCountFromPDC() {
         return creatureSpawner.getPersistentDataContainer().getOrDefault(
                 NamespacedKey.fromString("count", SpawnerGenz.getInstance()),
@@ -123,6 +140,18 @@ public class Spawner {
 
         Bukkit.getScheduler().runTask(SpawnerGenz.getInstance(), () -> creatureSpawner.update());
     }
+
+    private void setExperienceToPDCSync(int xps) {
+        creatureSpawner.getPersistentDataContainer()
+                .set(
+                        NamespacedKey.fromString("experience", SpawnerGenz.getInstance()),
+                        PersistentDataType.INTEGER,
+                        xps
+                );
+
+        creatureSpawner.update();
+    }
+
     private int getExperienceFromPDC() {
         return creatureSpawner.getPersistentDataContainer().getOrDefault(
                 NamespacedKey.fromString("experience", SpawnerGenz.getInstance()),
@@ -140,6 +169,18 @@ public class Spawner {
 
         Bukkit.getScheduler().runTask(SpawnerGenz.getInstance(), () -> creatureSpawner.update());
     }
+
+    private void setStorageToPDCSync(ItemStack[] items) {
+        creatureSpawner.getPersistentDataContainer()
+                .set(
+                        NamespacedKey.fromString("storage", SpawnerGenz.getInstance()),
+                        DataType.ITEM_STACK_ARRAY,
+                        items
+                );
+
+        creatureSpawner.update();
+    }
+
     private ItemStack[] getStorageFromPDC() {
         return creatureSpawner.getPersistentDataContainer().getOrDefault(
                 NamespacedKey.fromString("storage", SpawnerGenz.getInstance()),
