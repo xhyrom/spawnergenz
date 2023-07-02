@@ -4,6 +4,7 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntityTypeArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.executors.CommandArguments;
 import me.xhyrom.spawnergenz.SpawnerGenz;
 import me.xhyrom.spawnergenz.utils.Utils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -37,10 +38,10 @@ public class SpawnerGenzCommand {
                 .register();
     }
 
-    public static void give(CommandSender sender, Object[] args) {
-        EntityType entityType = (EntityType) args[0];
-        int amount = args.length == 2 ? (int) args[1] : 1;
-        Player target = args.length == 3 ? (Player) args[2] : (Player) sender;
+    public static void give(CommandSender sender, CommandArguments args) {
+        EntityType entityType = (EntityType) args.get("entity");
+        int amount = (int) args.getOptional("amount").orElse(1);
+        Player target = (Player) args.getOptional("player").orElse(sender);
 
         ItemStack item = new ItemStack(Material.SPAWNER);
         BlockStateMeta itemMeta = (BlockStateMeta) item.getItemMeta();

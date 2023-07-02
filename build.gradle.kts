@@ -24,7 +24,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.26")
     annotationProcessor("org.projectlombok:lombok:1.18.26")
 
-    implementation("dev.jorel:commandapi-shade:8.8.0")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.0.3")
     implementation("de.tr7zw:item-nbt-api:2.11.2")
     implementation("com.jeff_media:MorePersistentDataTypes:2.4.0")
 

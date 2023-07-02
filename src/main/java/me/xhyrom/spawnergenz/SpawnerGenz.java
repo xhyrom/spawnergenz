@@ -1,6 +1,7 @@
 package me.xhyrom.spawnergenz;
 
 import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
 import me.xhyrom.spawnergenz.commands.SpawnerGenzCommand;
@@ -27,12 +28,12 @@ public class SpawnerGenz extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIConfig());
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
     }
 
     @Override
     public void onEnable() {
-        CommandAPI.onEnable(this);
+        CommandAPI.onEnable();
         saveDefaultConfig();
 
         getConfig().getConfigurationSection("actions").getKeys(false).forEach(key -> {
