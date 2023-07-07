@@ -31,6 +31,7 @@ public class BlockListener implements Listener {
         event.setDropItems(false);
         event.setCancelled(true);
 
+        /*
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {
             handleBreak(event, spawner);
@@ -48,6 +49,7 @@ public class BlockListener implements Listener {
 
             Bukkit.getScheduler().runTask(SpawnerGenz.getInstance(), () -> handleBreak(event, spawner));
         });
+        */
     }
 
     private void handleBreak(BlockBreakEvent event, Spawner spawner) {
