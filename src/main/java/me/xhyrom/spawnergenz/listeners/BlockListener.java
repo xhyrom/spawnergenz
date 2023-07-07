@@ -20,7 +20,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -30,6 +29,11 @@ public class BlockListener implements Listener {
         if (event.getBlock().getType() != Material.SPAWNER) return;
         event.setDropItems(false);
         event.setCancelled(true);
+
+        // Allow only silk touch 10+ (special pickaxe)
+        // TODO: use oraxen api
+        if (event.getPlayer().getInventory().getItemInMainHand().getEnchantLevel(Enchantment.SILK_TOUCH) != 10)
+            return;
 
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {

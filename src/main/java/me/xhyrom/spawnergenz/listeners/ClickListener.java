@@ -76,43 +76,18 @@ public class ClickListener implements Listener {
                 return;
             }
 
-            if (player.isSneaking()) {
-                int remove = 0;
-                for (int i = 0; i < itemInHand.getAmount(); i++) {
-                    if (spawner.getCount() == 256) {
-                        if (i == 0)
-                            player.sendMessage(MiniMessage.miniMessage().deserialize(
-                                    SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")
-                            ));
+            if (spawner.getCount() != 256) {
+                spawner.setCount(spawner.getCount() + 1);
 
-                        if ((itemInHand.getAmount() - remove) <= 0) {
-                            player.getInventory().setItemInMainHand(null);
-                        } else itemInHand.setAmount(itemInHand.getAmount() - remove);
-
-                        return;
-                    }
-
-                    spawner.setCount(spawner.getCount() + 1);
-                    remove++;
-                }
-
-                if ((itemInHand.getAmount() - remove) <= 0) {
+                if (itemInHand.getAmount() == 1) {
                     player.getInventory().setItemInMainHand(null);
-                } else itemInHand.setAmount(itemInHand.getAmount() - remove);
+                } else itemInHand.setAmount(itemInHand.getAmount() - 1);
             } else {
-                if (spawner.getCount() != 256) {
-                    spawner.setCount(spawner.getCount() + 1);
+                player.sendMessage(MiniMessage.miniMessage().deserialize(
+                        SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")
+                ));
 
-                    if (itemInHand.getAmount() == 1) {
-                        player.getInventory().setItemInMainHand(null);
-                    } else itemInHand.setAmount(itemInHand.getAmount() - 1);
-                } else {
-                    player.sendMessage(MiniMessage.miniMessage().deserialize(
-                            SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")
-                    ));
-
-                    return;
-                }
+                return;
             }
 
             player.sendMessage(MiniMessage.miniMessage().deserialize(

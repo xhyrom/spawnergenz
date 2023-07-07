@@ -6,6 +6,7 @@ import me.xhyrom.spawnergenz.utils.Utils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,9 +48,10 @@ public class SpawnerListener implements Listener {
         for (int i = 0; i < spawner.getCount(); i++) {
             LootContext lootContext = new LootContext.Builder(event.getLocation())
                     .lootedEntity(event.getEntity())
+                    .lootingModifier(1)
                     .build();
 
-            spawner.setExperience(spawner.getExperience() + Utils.getRandomInt(0, 4));
+            spawner.setExperience(spawner.getExperience() + Utils.getRandomInt(0, 2));
 
             for (ItemStack item : lootTable.populateLoot(new Random(), lootContext)) {
                 if (spawner.getStorage().size() >= 18 * spawner.getCount()) break;
