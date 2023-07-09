@@ -35,6 +35,8 @@ public class BlockListener implements Listener {
         if (event.getPlayer().getInventory().getItemInMainHand().getEnchantLevel(Enchantment.SILK_TOUCH) != 10)
             return;
 
+        event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {
             handleBreak(event, spawner);
