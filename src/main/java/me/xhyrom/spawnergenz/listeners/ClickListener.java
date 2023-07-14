@@ -23,6 +23,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Objects;
+
 public class ClickListener implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
@@ -64,24 +66,65 @@ public class ClickListener implements Listener {
             ItemMeta itemInHandMeta = itemInHand.getItemMeta();
             PersistentDataContainer itemInHandPDC = itemInHandMeta.getPersistentDataContainer();
 
+            NamespacedKey countKey = NamespacedKey.fromString("count", SpawnerGenz.getInstance());
             NamespacedKey mobKey = NamespacedKey.fromString("ms_mob", SpawnerGenz.getInstance());
             EntityType handMob = itemInHandPDC.has(mobKey) ? EntityType.valueOf(itemInHandPDC.get(mobKey, PersistentDataType.STRING)) : EntityType.PIG;
+
+            int count = itemInHandPDC.getOrDefault(countKey, PersistentDataType.INTEGER, 1);
 
             if (
                     handMob != spawner.getCreatureSpawner().getSpawnedType()
             ) {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-type")
+                        Objects.requireNonNull(SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-type"))
                 ));
                 return;
             }
 
             if (spawner.getCount() != 256) {
-                spawner.setCount(spawner.getCount() + 1);
+                if (count > 1) {
+                    int allowToMerge = 256 - spawner.getCount();
+                    int actuallyMerged;
 
-                if (itemInHand.getAmount() == 1) {
-                    player.getInventory().setItemInMainHand(null);
-                } else itemInHand.setAmount(itemInHand.getAmount() - 1);
+                    if (player.isSneaking()) {
+                        if (allowToMerge > count) {
+                            spawner.setCount(spawner.getCount() + count);
+
+                            actuallyMerged = count;
+                        } else {
+                            spawner.setCount(256);
+                            actuallyMerged = allowToMerge;
+                        }
+                    } else {
+                        spawner.setCount(spawner.getCount() + 1);
+
+                        actuallyMerged = 1;
+                    }
+
+                    int amount = count - actuallyMerged;
+
+                    if (amount == 0) {
+                        player.getInventory().setItemInMainHand(null);
+                    } else {
+                        itemInHandPDC.set(countKey, PersistentDataType.INTEGER, amount);
+
+                        itemInHandMeta.displayName(MiniMessage.miniMessage().deserialize(
+                                SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
+                                Placeholder.parsed("amount", String.valueOf(amount)),
+                                Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(
+                                        spawner.getCreatureSpawner().getSpawnedType().name()
+                                ))
+                        ));
+
+                        itemInHand.setItemMeta(itemInHandMeta);
+                    }
+                } else {
+                    spawner.setCount(spawner.getCount() + 1);
+
+                    if (itemInHand.getAmount() == 1) {
+                        player.getInventory().setItemInMainHand(null);
+                    } else itemInHand.setAmount(itemInHand.getAmount() - 1);
+                }
             } else {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(
                         SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")

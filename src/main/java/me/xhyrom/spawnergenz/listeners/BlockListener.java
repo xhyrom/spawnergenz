@@ -8,6 +8,7 @@ import me.xhyrom.spawnergenz.utils.Utils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.CreatureSpawner;
@@ -30,9 +31,15 @@ public class BlockListener implements Listener {
         event.setDropItems(false);
         event.setCancelled(true);
 
+        ItemStack itemInMainHand = event.getPlayer().getInventory().getItemInMainHand();
+        if (itemInMainHand.getItemMeta() == null && event.getPlayer().getGameMode() != GameMode.CREATIVE)
+            return;
+
         // Allow only silk touch 10+ (special pickaxe)
         // TODO: use oraxen api
-        if (event.getPlayer().getInventory().getItemInMainHand().getEnchantLevel(Enchantment.SILK_TOUCH) != 10)
+        if (itemInMainHand.getEnchantLevel(Enchantment.SILK_TOUCH) != 10 &&
+                event.getPlayer().getGameMode() != GameMode.CREATIVE
+        )
             return;
 
         event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
