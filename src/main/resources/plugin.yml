@@ -5,5 +5,8 @@ author: xHyroM
 main: me.xhyrom.spawnergenz.SpawnerGenz
 api-version: 1.19
 
-depend:
+softdepend:
+  - Essentials
+  - EconomyShopGUI
+  - EconomyShopGUI-Premium
   - PeddlersPocket

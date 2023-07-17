@@ -14,6 +14,7 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://hub.jeff-media.com/nexus/repository/jeff-media-public/")
     maven("https://repo.jopga.me/releases")
+    maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {
@@ -27,6 +28,10 @@ dependencies {
     implementation("dev.jorel:commandapi-bukkit-shade:9.0.3")
     implementation("de.tr7zw:item-nbt-api:2.11.2")
     implementation("com.jeff_media:MorePersistentDataTypes:2.4.0")
+
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("net.essentialsx:EssentialsX:2.20.0")
+    compileOnly("com.github.Gypopo:EconomyShopGUI-API:1.6.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")

@@ -1,3 +1,5 @@
+# Available shop plugins: Essentials, EconomyShopGUI(-Premium), PeddlersPocket(TODO)
+shop-plugin:
 actions:
   claim_loot:
     success:
@@ -20,6 +22,7 @@ messages:
   failed-to-merge-type: "<red>You can only merge spawners with the same type!"
   failed-to-merge-max: "<red>You can't merge more than 256 spawners!"
   collect-xp: "<green>Collected <experience_formatted> XP"
+  sold-items: "<green>Sold all items for $<sell_amount>!</green>"
 
 ui:
   actions:
