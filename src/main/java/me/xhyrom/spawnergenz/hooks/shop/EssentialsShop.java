@@ -33,7 +33,7 @@ public class EssentialsShop implements ShopHook {
             if (price == null || price.isNaN()) {
                 return 0.00;
             }
-            totalPrice += price;
+            totalPrice += price * itemStack.getAmount();
         }
         return totalPrice;
     }
