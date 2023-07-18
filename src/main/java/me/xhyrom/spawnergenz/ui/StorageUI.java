@@ -1,7 +1,7 @@
 package me.xhyrom.spawnergenz.ui;
 
-import me.xhyrom.peddlerspocket.api.PeddlersPocketAPI;
 import me.xhyrom.spawnergenz.SpawnerGenz;
+import me.xhyrom.spawnergenz.hooking.Hooks;
 import me.xhyrom.spawnergenz.structs.Placeholder;
 import me.xhyrom.spawnergenz.structs.Spawner;
 import me.xhyrom.spawnergenz.structs.actions.Action;
@@ -189,8 +189,12 @@ public class StorageUI implements Listener {
                 }
                 break;
             case 53:
-                Double sellPrice = SpawnerGenz.getInstance().getShopHook().getSellPrice(player, spawner.getStorage());
-                SpawnerGenz.getInstance().getVaultEconomy().depositPlayer(player, sellPrice);
+                if (Hooks.getShopHook() == null || Hooks.getVaultEconomy() == null) {
+                    player.sendRichMessage("<red>An error as occurred. Please contact the server administrators");
+                    return;
+                }
+                Double sellPrice = Hooks.getShopHook().getSellPrice(player, spawner.getStorage());
+                Hooks.getVaultEconomy().depositPlayer(player, sellPrice);
                 player.sendMessage(MiniMessage.miniMessage()
                         .deserialize(SpawnerGenz.getInstance().getConfig().getString("messages.sold-items"),
                                 net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.unparsed("sell_amount", String.valueOf(sellPrice))

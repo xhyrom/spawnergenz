@@ -1,4 +1,4 @@
-package me.xhyrom.spawnergenz.hooks;
+package me.xhyrom.spawnergenz.hooking;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

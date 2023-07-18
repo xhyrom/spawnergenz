@@ -1,5 +1,5 @@
 # Available shop plugins: Essentials, EconomyShopGUI(-Premium), PeddlersPocket(TODO)
-shop-plugin:
+shop-plugin: UNCONFIGURED
 actions:
   claim_loot:
     success:

@@ -1,9 +1,9 @@
-package me.xhyrom.spawnergenz.hooks.shop;
+package me.xhyrom.spawnergenz.hooking.hooks.shop;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.Worth;
 import me.xhyrom.spawnergenz.SpawnerGenz;
-import me.xhyrom.spawnergenz.hooks.ShopHook;
+import me.xhyrom.spawnergenz.hooking.ShopHook;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -4,21 +4,15 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import lombok.Getter;
 import me.xhyrom.spawnergenz.commands.SpawnerGenzCommand;
-import me.xhyrom.spawnergenz.hooks.ShopHook;
-import me.xhyrom.spawnergenz.hooks.shop.EconomyShopGUI;
-import me.xhyrom.spawnergenz.hooks.shop.EssentialsShop;
+import me.xhyrom.spawnergenz.hooking.Hooks;
 import me.xhyrom.spawnergenz.listeners.BlockListener;
 import me.xhyrom.spawnergenz.listeners.ClickListener;
 import me.xhyrom.spawnergenz.listeners.SpawnerListener;
 import me.xhyrom.spawnergenz.structs.Spawner;
 import me.xhyrom.spawnergenz.structs.TTLHashMap;
 import me.xhyrom.spawnergenz.structs.actions.*;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,14 +24,6 @@ public class SpawnerGenz extends JavaPlugin {
     @Getter
     private HashMap<ActionOpportunity, HashMap<ActionStatus, ArrayList<Action>>> actions = new HashMap<>();
 
-    private HashMap<String, Class<? extends ShopHook>> shopPlugins = new HashMap<>();
-
-    @Getter
-    private Economy vaultEconomy;
-
-    @Getter
-    private ShopHook shopHook;
-
     @Override
     public void onLoad() {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
@@ -47,16 +33,6 @@ public class SpawnerGenz extends JavaPlugin {
     public void onEnable() {
         CommandAPI.onEnable();
         saveDefaultConfig();
-        if (!setupVault()) {
-            this.getLogger().severe("Failed to hook into Vault!");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-        if (!loadShops()) {
-            this.getLogger().severe("Failed to hook into shop!");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
         getConfig().getConfigurationSection("actions").getKeys(false).forEach(key -> {
             ActionOpportunity opportunity = ActionOpportunity.valueOf(key.toUpperCase());
             HashMap<ActionStatus, ArrayList<Action>> map = new HashMap<>();
@@ -100,6 +76,7 @@ public class SpawnerGenz extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new SpawnerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        new Hooks();
         SpawnerGenzCommand.register();
     }
 
@@ -108,40 +85,6 @@ public class SpawnerGenz extends JavaPlugin {
         CommandAPI.onDisable();
         for (Spawner spawner : spawners.values()) {
             spawner.saveToPDCSync();
-        }
-    }
-
-    private boolean setupVault() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        this.vaultEconomy = rsp.getProvider();
-        return this.vaultEconomy != null;
-    }
-    private boolean loadShops() {
-        // This could probably be improved
-        shopPlugins.put("Essentials", EssentialsShop.class);
-        shopPlugins.put("EconomyShopGUI", EconomyShopGUI.class);
-        shopPlugins.put("EconomyShopGUI-Premium", EconomyShopGUI.class);
-        shopPlugins.put("PeddlersPocket", EconomyShopGUI.class);
-        Class<? extends ShopHook> pluginClass = shopPlugins.get(this.getConfig().getString("shop-plugin"));
-        if (pluginClass != null) {
-            try {
-                this.shopHook = pluginClass.getConstructor().newInstance();
-                return true;
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
-                this.getLogger().severe(e.getMessage());
-                Bukkit.getPluginManager().disablePlugin(this);
-                return false;
-            }
-        } else {
-            this.getLogger().severe("Unfortunately SpawnerGenz does not support "+this.getConfig().getString("shop-plugin")+" at this time :(");
-            return false;
         }
     }
 }
