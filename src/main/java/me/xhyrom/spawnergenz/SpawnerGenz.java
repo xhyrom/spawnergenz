@@ -76,7 +76,7 @@ public class SpawnerGenz extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new SpawnerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
-        new Hooks();
+        Hooks.init();
         SpawnerGenzCommand.register();
     }
 

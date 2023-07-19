@@ -17,11 +17,11 @@ public class Hooks {
 
     @Getter
     private static ShopHook shopHook = null;
-    public Hooks() {
-        this.loadVault();
-        this.loadShops();
+    public static void init() {
+        loadVault();
+        loadShops();
     }
-    private void loadVault() {
+    private static void loadVault() {
         if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             SpawnerGenz.getInstance().getLogger().severe("Failed to hook into Vault. Without Vault, SpawnerGenz may not function correctly!");
             return;
@@ -30,9 +30,9 @@ public class Hooks {
         if (rsp == null) {
             return;
         }
-        this.vaultEconomy = rsp.getProvider();
+        vaultEconomy = rsp.getProvider();
     }
-    private void loadShops() {
+    private static void loadShops() {
         String configuredShopPlugin = SpawnerGenz.getInstance().getConfig().getString("shop-plugin");
         if (configuredShopPlugin.equals("UNCONFIGURED")) {
             SpawnerGenz.getInstance().getLogger().severe("No shop plugin has been configured. Player's will not be able to sell the loot from spawners without it!");
