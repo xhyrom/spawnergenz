@@ -2,17 +2,15 @@ package me.xhyrom.spawnergenz;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
-import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
 import me.xhyrom.spawnergenz.commands.SpawnerGenzCommand;
+import me.xhyrom.spawnergenz.hooking.Hooks;
 import me.xhyrom.spawnergenz.listeners.BlockListener;
 import me.xhyrom.spawnergenz.listeners.ClickListener;
 import me.xhyrom.spawnergenz.listeners.SpawnerListener;
 import me.xhyrom.spawnergenz.structs.Spawner;
 import me.xhyrom.spawnergenz.structs.TTLHashMap;
 import me.xhyrom.spawnergenz.structs.actions.*;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ public class SpawnerGenz extends JavaPlugin {
     public void onEnable() {
         CommandAPI.onEnable();
         saveDefaultConfig();
-
         getConfig().getConfigurationSection("actions").getKeys(false).forEach(key -> {
             ActionOpportunity opportunity = ActionOpportunity.valueOf(key.toUpperCase());
             HashMap<ActionStatus, ArrayList<Action>> map = new HashMap<>();
@@ -79,6 +76,7 @@ public class SpawnerGenz extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new SpawnerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        Hooks.init();
         SpawnerGenzCommand.register();
     }
 
