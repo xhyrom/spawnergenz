@@ -16,6 +16,9 @@ actions:
 
 item-spawner-name: "<yellow><amount>x <pink><spawner_type> <white>spawner"
 
+spawners:
+  require-silk-touch: false # If set to true the player will need an item with silk touch on it in order to mine spawners
+
 messages:
   loading-spawner: "<green>Loading spawner..."
   success-merge: "<green>Merged spawners! now: <count> <spawner_type>"

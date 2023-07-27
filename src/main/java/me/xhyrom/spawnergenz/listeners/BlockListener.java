@@ -37,13 +37,12 @@ public class BlockListener implements Listener {
 
         // Allow only silk touch 10+ (special pickaxe)
         // TODO: use oraxen api
-        if (itemInMainHand.getEnchantLevel(Enchantment.SILK_TOUCH) != 10 &&
+        if (SpawnerGenz.getInstance().getConfig().getBoolean("require-silk-touch") && itemInMainHand.getType()
+                != Material.AIR && itemInMainHand.getEnchantLevel(Enchantment.SILK_TOUCH) != 1 &&
                 event.getPlayer().getGameMode() != GameMode.CREATIVE
         )
             return;
-
-        event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-
+        
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {
             handleBreak(event, spawner);
