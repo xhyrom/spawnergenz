@@ -54,7 +54,7 @@ public class SpawnerListener implements Listener {
             spawner.setExperience(spawner.getExperience() + Utils.getRandomInt(0, 2));
 
             for (ItemStack item : lootTable.populateLoot(new Random(), lootContext)) {
-                if (spawner.getStorage().size() >= 18 * spawner.getCount()) break;
+                if (spawner.getStorage().size() >= SpawnerGenz.getInstance().getConfig().getInt("spawners.storage-multiplier") * spawner.getCount()) break;
 
                 spawner.addItemToStorage(item);
             }

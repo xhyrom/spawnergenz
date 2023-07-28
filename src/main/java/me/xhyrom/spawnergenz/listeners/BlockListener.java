@@ -42,7 +42,7 @@ public class BlockListener implements Listener {
                 event.getPlayer().getGameMode() != GameMode.CREATIVE
         )
             return;
-        
+
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {
             handleBreak(event, spawner);

@@ -81,9 +81,11 @@ public class ClickListener implements Listener {
                 return;
             }
 
-            if (spawner.getCount() != 256) {
+            int maxStackSize = SpawnerGenz.getInstance().getConfig().getInt("spawners.max-stack-size");
+
+            if (spawner.getCount() != maxStackSize) {
                 if (count > 1) {
-                    int allowToMerge = 256 - spawner.getCount();
+                    int allowToMerge = maxStackSize - spawner.getCount();
                     int actuallyMerged;
 
                     if (player.isSneaking()) {
@@ -92,7 +94,7 @@ public class ClickListener implements Listener {
 
                             actuallyMerged = count;
                         } else {
-                            spawner.setCount(256);
+                            spawner.setCount(maxStackSize);
                             actuallyMerged = allowToMerge;
                         }
                     } else {
@@ -127,7 +129,8 @@ public class ClickListener implements Listener {
                 }
             } else {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max")
+                        SpawnerGenz.getInstance().getConfig().getString("messages.failed-to-merge-max"),
+                        Placeholder.parsed("spawner_stack_limit", String.valueOf(maxStackSize))
                 ));
 
                 return;
