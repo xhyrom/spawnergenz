@@ -101,8 +101,8 @@ public class ActionsUI implements Listener {
                                                 spawner.getCreatureSpawner().getSpawnedType().name()
                                         )),
                                         Placeholder.parsed("storage", String.valueOf(spawner.getStorage().size())),
-                                        Placeholder.parsed("storage_max", String.valueOf(18 * spawner.getCount())),
-                                        Placeholder.parsed("storage_percentage", String.format("%.1f", (double) spawner.getStorage().size() / (18 * spawner.getCount()) * 100))
+                                        Placeholder.parsed("storage_max", String.valueOf(SpawnerGenz.getInstance().getConfig().getInt("spawners.storage-multiplier") * spawner.getCount())),
+                                        Placeholder.parsed("storage_percentage", String.format("%.1f", (double) spawner.getStorage().size() / (SpawnerGenz.getInstance().getConfig().getInt("spawners.storage-multiplier") * spawner.getCount()) * 100))
                                 ).decoration(TextDecoration.ITALIC, false)
                         )
                         .collect(Collectors.toList())
