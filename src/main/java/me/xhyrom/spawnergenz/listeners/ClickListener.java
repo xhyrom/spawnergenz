@@ -106,7 +106,11 @@ public class ClickListener implements Listener {
                     int amount = count - actuallyMerged;
 
                     if (amount == 0) {
-                        player.getInventory().setItemInMainHand(null);
+                        if (itemInHand.getAmount() == 1) {
+                            player.getInventory().setItemInMainHand(null);
+                        } else {
+                            itemInHand.setAmount(itemInHand.getAmount() - 1);
+                        }
                     } else {
                         itemInHandPDC.set(countKey, PersistentDataType.INTEGER, amount);
 
