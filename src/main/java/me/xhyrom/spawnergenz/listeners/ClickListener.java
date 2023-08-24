@@ -154,6 +154,11 @@ public class ClickListener implements Listener {
                     if (itemInHand.getAmount() == 1) {
                         player.getInventory().setItemInMainHand(null);
                     } else {
+                        // If the pdc count is 1 then we can just remove the item
+                        if (count == 1) {
+                            itemInHand.setAmount(itemInHand.getAmount() - 1);
+                            return;
+                        }
                         ItemStack clone = itemInHand.clone();
                         ItemMeta cloneMeta = clone.getItemMeta();
                         PersistentDataContainer clonePDC = cloneMeta.getPersistentDataContainer();
@@ -169,6 +174,12 @@ public class ClickListener implements Listener {
                                         spawner.getCreatureSpawner().getSpawnedType().name()
                                 ))
                         ));
+
+                        clone.setItemMeta(cloneMeta);
+
+                        itemInHand.setAmount(itemInHand.getAmount() - 1);
+
+                        player.getInventory().addItem(clone);
                     }
                 }
             } else {
