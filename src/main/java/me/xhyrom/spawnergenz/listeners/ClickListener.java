@@ -112,24 +112,75 @@ public class ClickListener implements Listener {
                             itemInHand.setAmount(itemInHand.getAmount() - 1);
                         }
                     } else {
-                        itemInHandPDC.set(countKey, PersistentDataType.INTEGER, amount);
+                        if (itemInHand.getAmount() == 1) {
+                            itemInHandPDC.set(countKey, PersistentDataType.INTEGER, amount);
 
-                        itemInHandMeta.displayName(MiniMessage.miniMessage().deserialize(
-                                SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
-                                Placeholder.parsed("amount", String.valueOf(amount)),
-                                Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(
-                                        spawner.getCreatureSpawner().getSpawnedType().name()
-                                ))
-                        ));
+                            itemInHandMeta.displayName(MiniMessage.miniMessage().deserialize(
+                                    SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
+                                    Placeholder.parsed("amount", String.valueOf(amount)),
+                                    Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(
+                                            spawner.getCreatureSpawner().getSpawnedType().name()
+                                    ))
+                            ));
 
-                        itemInHand.setItemMeta(itemInHandMeta);
+                            itemInHand.setItemMeta(itemInHandMeta);
+                        } else {
+                            ItemStack clone = itemInHand.clone();
+                            ItemMeta cloneMeta = clone.getItemMeta();
+                            PersistentDataContainer clonePDC = cloneMeta.getPersistentDataContainer();
+
+                            clone.setAmount(1);
+
+                            clonePDC.set(countKey, PersistentDataType.INTEGER, amount);
+
+                            cloneMeta.displayName(MiniMessage.miniMessage().deserialize(
+                                    SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
+                                    Placeholder.parsed("amount", String.valueOf(amount)),
+                                    Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(
+                                            spawner.getCreatureSpawner().getSpawnedType().name()
+                                    ))
+                            ));
+
+                            clone.setItemMeta(cloneMeta);
+
+                            itemInHand.setAmount(itemInHand.getAmount() - 1);
+
+                            player.getInventory().addItem(clone);
+                        }
                     }
                 } else {
                     spawner.setCount(spawner.getCount() + 1);
 
                     if (itemInHand.getAmount() == 1) {
                         player.getInventory().setItemInMainHand(null);
-                    } else itemInHand.setAmount(itemInHand.getAmount() - 1);
+                    } else {
+                        // If the pdc count is 1 then we can just remove the item
+                        if (count == 1) {
+                            itemInHand.setAmount(itemInHand.getAmount() - 1);
+                            return;
+                        }
+                        ItemStack clone = itemInHand.clone();
+                        ItemMeta cloneMeta = clone.getItemMeta();
+                        PersistentDataContainer clonePDC = cloneMeta.getPersistentDataContainer();
+
+                        clone.setAmount(1);
+
+                        clonePDC.set(countKey, PersistentDataType.INTEGER, count - 1);
+
+                        cloneMeta.displayName(MiniMessage.miniMessage().deserialize(
+                                SpawnerGenz.getInstance().getConfig().getString("item-spawner-name"),
+                                Placeholder.parsed("amount", String.valueOf(count - 1)),
+                                Placeholder.parsed("spawner_type", Utils.convertUpperSnakeCaseToPascalCase(
+                                        spawner.getCreatureSpawner().getSpawnedType().name()
+                                ))
+                        ));
+
+                        clone.setItemMeta(cloneMeta);
+
+                        itemInHand.setAmount(itemInHand.getAmount() - 1);
+
+                        player.getInventory().addItem(clone);
+                    }
                 }
             } else {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(
