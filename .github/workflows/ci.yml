@@ -56,4 +56,4 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            build/libs/*.jar
+            build/libs/*-all.jar
