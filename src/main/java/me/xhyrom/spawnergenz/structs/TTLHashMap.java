@@ -23,7 +23,10 @@ public class TTLHashMap {
                 if (ttl.get(key) == null) continue;
 
                 if (ttl.get(key) < System.currentTimeMillis()) {
-                    remove(key);
+                    if (map.get(key) != null) map.get(key).saveToPDC();
+
+                    map.remove(key);
+                    ttl.remove(key);
                 }
             }
         }, 0, 60 * 20L);
