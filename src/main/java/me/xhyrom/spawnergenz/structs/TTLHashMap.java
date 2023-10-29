@@ -6,10 +6,11 @@ import org.bukkit.Location;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TTLHashMap {
-    private HashMap<Location, Spawner> map = new HashMap<>();
-    private HashMap<Location, Long> ttl = new HashMap<>();
+    private ConcurrentHashMap<Location, Spawner> map = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Location, Long> ttl = new ConcurrentHashMap<>();
     private long ttlTime;
 
     public TTLHashMap(long ttlTime) {
@@ -18,6 +19,8 @@ public class TTLHashMap {
         Bukkit.getScheduler().runTaskTimerAsynchronously(SpawnerGenz.getInstance(), () -> {
             for (Location key : map.keySet()) {
                 get(key).saveToPDC();
+
+                if (ttl.get(key) == null) continue;
 
                 if (ttl.get(key) < System.currentTimeMillis()) {
                     remove(key);
