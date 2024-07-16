@@ -14,13 +14,14 @@ import static org.bukkit.Bukkit.getServer;
 public class Hooks {
     @Getter
     private static Economy vaultEconomy = null;
-
     @Getter
     private static ShopHook shopHook = null;
+
     public static void init() {
         loadVault();
         loadShops();
     }
+
     private static void loadVault() {
         if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             SpawnerGenz.getInstance().getLogger().severe("Failed to hook into Vault. Without Vault, SpawnerGenz may not function correctly!");
@@ -32,6 +33,7 @@ public class Hooks {
         }
         vaultEconomy = rsp.getProvider();
     }
+
     private static void loadShops() {
         String configuredShopPlugin = SpawnerGenz.getInstance().getConfig().getString("shop-plugin");
         if (configuredShopPlugin.equals("UNCONFIGURED")) {
