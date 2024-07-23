@@ -18,6 +18,7 @@ item-spawner-name: "<yellow><amount>x <pink><spawner_type> <white>spawner"
 
 spawners:
   require-silk-touch: false # If set to true the player will need an item with silk touch on it in order to mine spawners
+  remove-item-in-main-hand-after-break: false # If set to true the item in the player's main hand will be removed after breaking a spawner
   max-stack-size: 256 # This determines how many spawners someone can have in a single stack
   storage-multiplier: 18 # This determines the scaling factor applied to the maximum storage capacity for each spawner in a stack.
 

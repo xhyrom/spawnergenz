@@ -37,11 +37,14 @@ public class BlockListener implements Listener {
 
         // Allow only silk touch 10+ (special pickaxe)
         // TODO: use oraxen api
-        if (SpawnerGenz.getInstance().getConfig().getBoolean("require-silk-touch") && itemInMainHand.getType()
-                != Material.AIR && itemInMainHand.getEnchantLevel(Enchantment.SILK_TOUCH) != 1 &&
-                event.getPlayer().getGameMode() != GameMode.CREATIVE
-        )
+        if (itemInMainHand.getType()
+                == Material.AIR) return;
+        if (SpawnerGenz.getInstance().getConfig().getBoolean("spawners.require-silk-touch")
+                && event.getPlayer().getGameMode() != GameMode.CREATIVE && itemInMainHand.getEnchantLevel(Enchantment.SILK_TOUCH) < 10)
             return;
+
+        if (SpawnerGenz.getInstance().getConfig().getBoolean("spawners.remove-item-in-main-hand-after-break") && event.getPlayer().getGameMode() != GameMode.CREATIVE)
+            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 
         Spawner spawner = Spawner.fromCreatureSpawner((CreatureSpawner) event.getBlock().getState(false));
         if (spawner.isReady()) {
@@ -139,11 +142,13 @@ public class BlockListener implements Listener {
                 EntityType.valueOf(container.get(mobKey, PersistentDataType.STRING)) :
                 EntityType.PIG;
 
-        new NBTTileEntity(creatureSpawner).mergeCompound(
+        // TODO: change
+        creatureSpawner.setSpawnedType(spawnedType);
+        /*new NBTTileEntity(creatureSpawner).mergeCompound(
                 new NBTContainer(
                         "{\"SpawnData\": {\"entity\": {\"id\": \"minecraft:"+spawnedType.name().toLowerCase()+"\"}, \"custom_spawn_rules\": {}}, \"MaxNearbyEntities\": \""+creatureSpawner.getMaxNearbyEntities()+"s\", \"MinSpawnDelay\": \""+creatureSpawner.getMinSpawnDelay()+"s\", \"y\": "+creatureSpawner.getY()+", \"id\": \"minecraft:mob_spawner\", \"SpawnPotentials\": [{\"weight\": 1, \"data\": {\"entity\": {\"id\": \"minecraft:"+spawnedType.name().toLowerCase()+"\"}, \"custom_spawn_rules\": {}}}], \"x\": "+creatureSpawner.getX()+", \"SpawnRange\": \""+creatureSpawner.getSpawnRange()+"s\", \"MaxSpawnDelay\": \""+creatureSpawner.getMaxSpawnDelay()+"s\", \"RequiredPlayerRange\": \""+creatureSpawner.getRequiredPlayerRange()+"s\", \"SpawnCount\": \""+creatureSpawner.getSpawnCount()+"s\", \"z\": "+creatureSpawner.getZ()+", \"Delay\": \""+creatureSpawner.getDelay()+"s\"}"
                 )
-        );
+        );*/
 
         Spawner spawner = Spawner.fromCreatureSpawner(creatureSpawner);
         if (spawner.isReady()) {
