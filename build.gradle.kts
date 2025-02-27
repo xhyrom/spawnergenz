@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.gradleup.shadow") version "9.0.0-beta9"
 }
 
 group = "me.xhyrom.spawnergenz"
@@ -18,21 +18,26 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.purpurmc.purpur", "purpur-api", "1.20.1-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.3")
+    compileOnly("org.purpurmc.purpur", "purpur-api", "1.21.4-R0.1-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("dev.xhyrom.peddlerspocket:PeddlersPocket:1.1.0") {
         exclude(group = "net.kyori")
     }
 
-    compileOnly("org.projectlombok:lombok:1.18.26")
-    annotationProcessor("org.projectlombok:lombok:1.18.26")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.5.1")
-    implementation("de.tr7zw:item-nbt-api:2.11.2")
-    implementation("com.jeff_media:MorePersistentDataTypes:2.4.0")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.7.0")
+    implementation("de.tr7zw:item-nbt-api:2.14.1")
+    implementation("com.jeff-media:MorePersistentDataTypes:2.4.0")
 
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
-    compileOnly("net.essentialsx:EssentialsX:2.20.0")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
+        exclude(group = "org.bukkit")
+    }
+    compileOnly("net.essentialsx:EssentialsX:2.20.1") {
+        exclude(group = "org.bukkit")
+        exclude(group = "org.spigotmc")
+    }
     compileOnly("com.github.Gypopo:EconomyShopGUI-API:1.7.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
@@ -42,7 +47,11 @@ dependencies {
 tasks {
     shadowJar {
         relocate("dev.jorel.commandapi", "me.xhyrom.spawnergenz.libs.commandapi")
-        relocate("com.jeff_media.morepersistentdatatypes", "me.xhyrom.spawnergenz.libs.morepersistentdatatypes")
+        relocate("com.jeff-media.morepersistentdatatypes", "me.xhyrom.spawnergenz.libs.morepersistentdatatypes")
         relocate("de.tr7zw.changeme.nbtapi", "me.xhyrom.spawnergenz.libs.nbtapi")
     }
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
